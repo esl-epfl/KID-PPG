@@ -1,0 +1,1 @@
+KID-PPG package for Heart Rate extraction from photoplethysmography and accelerometry signals. 
