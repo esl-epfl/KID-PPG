@@ -8,6 +8,8 @@ Created on Sun Jul 23 10:47:18 2023
 
 import tensorflow as tf
 import tensorflow_probability as tfp
+import scipy
+from scipy import stats
 tfd = tfp.distributions
 
 class KID_PPG:
