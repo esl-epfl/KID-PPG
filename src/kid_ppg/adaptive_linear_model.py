@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 19 13:52:01 2023
-
-@author: kechris
-"""
-
 import tensorflow as tf
 import keras
 

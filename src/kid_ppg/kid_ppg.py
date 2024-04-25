@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Jul 23 10:47:18 2023
-
-@author: kechris
-"""
-
 import tensorflow as tf
 import tensorflow_probability as tfp
 import scipy
