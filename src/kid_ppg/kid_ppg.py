@@ -18,7 +18,7 @@ class KID_PPG:
                  weights_file = None):
         self.input_shape = input_shape
 
-        self.model = self.build_model_probabilistic
+        self.model = self.build_model_probabilistic()
 
         if weights_file != None:
             self.model.load_weights(weights_file)
