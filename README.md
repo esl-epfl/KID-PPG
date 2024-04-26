@@ -3,13 +3,7 @@
 KID-PPG is the first ever publicly available pre-trained deep learning model for PPG Heart Rate inference.
 
 # Installation
-
-### Install from source
-Clone this directory \
-`git clone https://github.com/esl-epfl/KID-PPG.git`
-
-Install clone repository \
-`pip install ./KID-PPG`
+KID-PPG is readily available in both pip and conda. 
 
 ### Install from pip
 Install KID-PPG from pip \
@@ -18,6 +12,13 @@ Install KID-PPG from pip \
 ### Install from conda
 Install KID-PPG from conda \
 `conda install kid-ppg`
+
+### Install from source
+Clone this directory \
+`git clone https://github.com/esl-epfl/KID-PPG.git`
+
+Install clone repository \
+`pip install ./KID-PPG`
 
 # Usage
 
