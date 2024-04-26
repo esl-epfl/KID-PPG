@@ -119,7 +119,8 @@ class KID_PPG:
             model = tf.keras.models.Model(inputs = mInput, outputs = [m, attention_scores])
         else:
             model = tf.keras.models.Model(inputs = mInput, outputs = m)
-            
-        model.summary()
-        
+                    
         return model 
+
+    def summary(self):
+        self.model.summary()
