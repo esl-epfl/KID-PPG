@@ -2,18 +2,29 @@ import tensorflow as tf
 import tensorflow_probability as tfp
 import scipy
 from scipy import stats
+
+from importlib import resources as impresources
+from . import model_weights
+
 tfd = tfp.distributions
+
+weights_file = impresources.files(model_weights) / 'kid_ppg_weights.h5'
+weights_filename = weights_file.resolve()
 
 class KID_PPG:
 
-    def __init__(self, input_shape = (256, 1),
-                 weights_file = None):
+    def __init__(self, input_shape = (256, 2),
+                 input_weights_file = None, load_weights = True):
         self.input_shape = input_shape
 
         self.model = self.build_model_probabilistic()
 
-        if weights_file != None:
-            self.model.load_weights(weights_file)
+        if load_weights:
+
+            if input_weights_file == None:
+                self.model.load_weights(weights_filename)
+            else:
+                self.model.load_weights(input_weights_file)
         
         self.submodel = tf.keras.models.Model(inputs = self.model.inputs, 
                                               outputs = self.model.layers[-2].output)
@@ -102,7 +113,7 @@ class KID_PPG:
         m = tf.keras.layers.Dropout(rate = 0.125)(m)
         m = tf.keras.layers.Dense(units = 2)(m)
         
-        m = tfp.layers.DistributionLambda(my_dist)(m)
+        m = tfp.layers.DistributionLambda(self.my_dist)(m)
         
         if return_attention_weights:
             model = tf.keras.models.Model(inputs = mInput, outputs = [m, attention_scores])
