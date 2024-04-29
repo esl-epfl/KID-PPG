@@ -1,7 +1,6 @@
 import tensorflow as tf
 import tensorflow_probability as tfp
 import scipy
-from scipy import stats
 
 from importlib import resources as impresources
 from . import model_weights
