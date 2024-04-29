@@ -20,7 +20,7 @@ class KID_PPG:
 
         if load_weights:
 
-            if input_weights_file == None:
+            if input_weights_file is None:
                 self.model.load_weights(weights_filename)
             else:
                 self.model.load_weights(input_weights_file)
@@ -35,7 +35,7 @@ class KID_PPG:
         y_pred_m = y_pred[:, 0]
         y_pred_std = (1 + tf.math.softplus(y_pred[:,1:2])).numpy().flatten()
         
-        if threshold != None:
+        if threshold is not None:
             p = scipy.stats.norm(y_pred_m, y_pred_std).cdf(y_pred_m + threshold) \
                 - scipy.stats.norm(y_pred_m, y_pred_std).cdf(y_pred_m - threshold)
             
