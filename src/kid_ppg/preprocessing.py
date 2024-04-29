@@ -1,7 +1,19 @@
 import numpy as np
 
 
-def create_temporal_pairs(X_in, y_in):
+def create_temporal_pairs(X_in: np.ndarray, y_in: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Create pairs from the data X associated to labels y.
+    
+    Pairs of [X(n), X(n + 1)] are associated to labels y(n + 1).
+    
+    Args:
+        X_in (numpy.ndarray): Data of shape (n, ...).
+        y_in (numpy.ndarray): Labels of shape (n,).
+
+    Returns:
+        temp_X (numpy.ndarray): Pairs of input data of shape (n-1, ..., 2).
+        temp_y (numpy.ndarray): Associated labels of shape (n-1,).
+    """
     
     temp_X = np.concatenate([X_in[:-1, ...][..., None], 
                              X_in[1:, ...][..., None]], axis = -1)
