@@ -12,6 +12,8 @@ description = "A library for performing probabilistic heart rate extraction from
 readme = "README.md"
 requires-python = ">=3.10.8"
 dependencies = [
+  "python==3.10.8",
+  "silence_tensorflow==1.21.1",
   "numpy==1.24.3",
   "tensorflow==2.13.0",
   "tensorflow-probability==0.20.1",
