@@ -29,5 +29,9 @@ For an introductory demo on how to use KID-PPG for heart rate extraction check t
 Please use the following Bibtext entry to cite KID-PPG.
 
 ```
-TODO: Citation
+@article{kechris2024kid,
+  title={KID-PPG: Knowledge Informed Deep Learning for Extracting Heart Rate from a Smartwatch},
+  author={Kechris, Christodoulos and Dan, Jonathan and Miranda Calero, Jos{\'e} Angel and Atienza Alonso, David},
+  year={2024}
+}
 ```
