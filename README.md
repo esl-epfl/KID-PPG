@@ -1,6 +1,6 @@
 # KID-PPG: Knowledge-Informed Deep Learning for Extracting Heart Rate from Photoplethysmography Signals 
 
-KID-PPG is the first ever publicly available pre-trained deep learning model for PPG Heart Rate inference.
+KID-PPG is the first ever publicly available pre-trained deep learning model for PPG Heart Rate inference, proposed [here](https://infoscience.epfl.ch/record/310896?ln=en&v=pdf).
 
 # Installation
 KID-PPG is readily available in pip. 
