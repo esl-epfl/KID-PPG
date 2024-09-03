@@ -1,5 +1,6 @@
 import tensorflow as tf
 import tensorflow_probability as tfp
+import tf_keras as tfk
 import scipy
 import numpy as np
 
@@ -44,7 +45,7 @@ class KID_PPG:
             else:
                 self.model.load_weights(input_weights_file)
         
-        self.submodel = tf.keras.models.Model(inputs = self.model.inputs, 
+        self.submodel = tfk.models.Model(inputs = self.model.inputs, 
                                               outputs = self.model.layers[-2].output)
 
 
@@ -99,7 +100,7 @@ class KID_PPG:
                         kernel_size:int = 5, 
                         dilation_rate:int = 2,
                         pool_size:int = 2,
-                        padding:str = 'causal')->tf.keras.models.Model:
+                        padding:str = 'causal')->tfk.models.Model:
         """ Creates a convolutional block containing convolutional layers
         followed by a 1D Average Pooling and a Dropout layer.
 
@@ -115,19 +116,19 @@ class KID_PPG:
             model (tensorflow.models.Model): Tensorflow model ofthe convolutional block.
         """
             
-        mInput = tf.keras.Input(shape = input_shape)
+        mInput = tfk.Input(shape = input_shape)
         m = mInput
         for i in range(3):
-            m = tf.keras.layers.Conv1D(filters = n_filters,
+            m = tfk.layers.Conv1D(filters = n_filters,
                                     kernel_size = kernel_size,
                                     dilation_rate = dilation_rate,
                                         padding = padding,
                                     activation = 'relu')(m)
         
-        m = tf.keras.layers.AveragePooling1D(pool_size = pool_size)(m)
-        m = tf.keras.layers.Dropout(rate = 0.5)(m, training = False)
+        m = tfk.layers.AveragePooling1D(pool_size = pool_size)(m)
+        m = tfk.layers.Dropout(rate = 0.5)(m, training = False)
             
-        model = tf.keras.models.Model(inputs = mInput, outputs = m)
+        model = tfk.models.Model(inputs = mInput, outputs = m)
         
         return model
 
@@ -146,7 +147,7 @@ class KID_PPG:
                         scale = 1 + tf.math.softplus(params[:,1:2]))
         
 
-    def __build_model_probabilistic(self, return_attention_weights:bool = False) -> tf.keras.models.Model:
+    def __build_model_probabilistic(self, return_attention_weights:bool = False) -> tfk.models.Model:
         """Create probabilistic model.
     
         Model takes as inputs PPG pairs of [X(n), X(n + 1)] are associated 
@@ -162,7 +163,7 @@ class KID_PPG:
         
         modal_input_shape = (self.input_shape[0], 1)
         
-        mInput = tf.keras.Input(shape = self.input_shape)
+        mInput = tfk.Input(shape = self.input_shape)
         
         mInput_t_1 = mInput[..., :1]
         mInput_t = mInput[..., 1:]
@@ -181,7 +182,7 @@ class KID_PPG:
         m_ppg_t = conv_block3(m_ppg_t)
         
         
-        attention_layer = tf.keras.layers.MultiHeadAttention(num_heads = 4,
+        attention_layer = tfk.layers.MultiHeadAttention(num_heads = 4,
                                                             key_dim = 16,
                                                             )
         
@@ -192,20 +193,20 @@ class KID_PPG:
         
         m = m + m_ppg_t
         
-        m = tf.keras.layers.LayerNormalization()(m)
+        m = tfk.layers.LayerNormalization()(m)
         
             
-        m = tf.keras.layers.Flatten()(m)
-        m = tf.keras.layers.Dense(units = 256, activation = 'relu')(m)
-        m = tf.keras.layers.Dropout(rate = 0.125)(m)
-        m = tf.keras.layers.Dense(units = 2)(m)
+        m = tfk.layers.Flatten()(m)
+        m = tfk.layers.Dense(units = 256, activation = 'relu')(m)
+        m = tfk.layers.Dropout(rate = 0.125)(m)
+        m = tfk.layers.Dense(units = 2)(m)
         
         m = tfp.layers.DistributionLambda(self.__my_dist)(m)
         
         if return_attention_weights:
-            model = tf.keras.models.Model(inputs = mInput, outputs = [m, attention_scores])
+            model = tfk.models.Model(inputs = mInput, outputs = [m, attention_scores])
         else:
-            model = tf.keras.models.Model(inputs = mInput, outputs = m)
+            model = tfk.models.Model(inputs = mInput, outputs = m)
                     
         return model 
 
