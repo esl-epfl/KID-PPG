@@ -16,6 +16,7 @@ dependencies = [
     "tensorflow-probability>=0.24.0",
     "tf-keras>=2.17.0",
     "scipy>=1.14.1",
+    "resampy>=0.4.3",
   ]
 [project.optional-dependencies]
 notebook = [

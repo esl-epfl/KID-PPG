@@ -1,5 +1,31 @@
 import numpy as np
+import resampy
 
+def create_input_from_array(x: np.ndarray, fs: int = 32) ->np.ndarray:
+    """Create input data for kid-ppg from 1d array of PPG data
+
+    Args:
+    x (np.ndarray): Input 1D array of PPG data of shape (n,)
+    fs (int): Sampling frequency of the input signal. Defaults to 32 Hz.
+
+    Returns:
+    y (np.ndarray): Pairs of data of shape [(256, 2), ..].
+    """
+    
+    kid_ppg_fs = 32
+    kid_ppg_window = 256
+    kid_ppg_overlap = 64
+
+    x = resampy.resample(x, fs, kid_ppg_fs)
+    
+    if len(x) % kid_ppg_window:
+        x = np.concatenate((x, np.zeros(256 - (len(x) % kid_ppg_window))))
+    
+    y = np.lib.stride_tricks.sliding_window_view(x, kid_ppg_window)[::kid_ppg_overlap, :]
+    y = np.stack((y[:-1], y[1:]), axis=2)
+    
+    return y
+ 
 
 def create_temporal_pairs(X_in: np.ndarray, y_in: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Create pairs from the data X associated to labels y.
